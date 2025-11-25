@@ -104,4 +104,12 @@ export interface UserProfiles {
   experienceLevel?: string;
   /** @wixFieldType text */
   preferredRole?: string;
+  /** @wixFieldType text */
+  college?: string;
+  /** @wixFieldType text */
+  year?: string;
+  /** @wixFieldType text */
+  hackathonParticipation?: string;
+  /** @wixFieldType text */
+  achievements?: string;
 }

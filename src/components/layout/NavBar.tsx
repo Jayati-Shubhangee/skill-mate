@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useMember } from '@/integrations';
 import { User, LogOut } from 'lucide-react';
+import { Image } from '@/components/ui/image';
 
 export default function NavBar() {
   const location = useLocation();
@@ -12,10 +13,13 @@ export default function NavBar() {
   return (
     <header className="w-full bg-background border-b border-inputborder sticky top-0 z-50">
       <nav className="max-w-[120rem] mx-auto px-6 py-4 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-            <span className="text-white font-heading font-bold text-lg">S</span>
-          </div>
+        <Link to="/" className="flex items-center gap-3">
+          <Image
+            src="https://static.wixstatic.com/media/cd3b9f_9f9bb44bdc034898a3bf152ac3ec0600~mv2.png?id=skillmate-logo"
+            alt="SkillMate Logo"
+            className="w-10 h-10"
+            width={40}
+          />
           <span className="font-heading font-bold text-xl text-textprimary">SkillMate</span>
         </Link>
 
@@ -27,6 +31,14 @@ export default function NavBar() {
             }`}
           >
             Home
+          </Link>
+          <Link 
+            to="/find-teammates" 
+            className={`font-paragraph text-base transition-colors ${
+              isActive('/find-teammates') ? 'text-primary font-semibold' : 'text-textprimary hover:text-primary'
+            }`}
+          >
+            Find Teammates
           </Link>
           <Link 
             to="/explore" 

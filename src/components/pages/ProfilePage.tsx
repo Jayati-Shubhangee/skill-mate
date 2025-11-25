@@ -30,6 +30,10 @@ export default function ProfilePage() {
     availability: '',
     experienceLevel: '',
     preferredRole: '',
+    college: '',
+    year: '',
+    hackathonParticipation: '',
+    achievements: '',
   });
 
   useEffect(() => {
@@ -288,6 +292,58 @@ export default function ProfilePage() {
                         className="bg-inputbackground border-inputborder"
                       />
                     </div>
+
+                    <div>
+                      <Label htmlFor="college" className="font-paragraph text-sm font-semibold text-textprimary mb-2 block">
+                        College/University
+                      </Label>
+                      <Input
+                        id="college"
+                        value={formData.college}
+                        onChange={(e) => setFormData({ ...formData, college: e.target.value })}
+                        placeholder="e.g., MIT, Stanford University"
+                        className="bg-inputbackground border-inputborder"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="year" className="font-paragraph text-sm font-semibold text-textprimary mb-2 block">
+                        Year of Study
+                      </Label>
+                      <Input
+                        id="year"
+                        value={formData.year}
+                        onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+                        placeholder="e.g., 2nd Year, Junior, Senior"
+                        className="bg-inputbackground border-inputborder"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="hackathonParticipation" className="font-paragraph text-sm font-semibold text-textprimary mb-2 block">
+                        Hackathon Participation
+                      </Label>
+                      <Input
+                        id="hackathonParticipation"
+                        value={formData.hackathonParticipation}
+                        onChange={(e) => setFormData({ ...formData, hackathonParticipation: e.target.value })}
+                        placeholder="e.g., HackMIT 2023, TechCrunch Disrupt 2024"
+                        className="bg-inputbackground border-inputborder"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="achievements" className="font-paragraph text-sm font-semibold text-textprimary mb-2 block">
+                        Achievements & Awards
+                      </Label>
+                      <Input
+                        id="achievements"
+                        value={formData.achievements}
+                        onChange={(e) => setFormData({ ...formData, achievements: e.target.value })}
+                        placeholder="e.g., Best AI Project, Finalist at HackMIT"
+                        className="bg-inputbackground border-inputborder"
+                      />
+                    </div>
                   </>
                 ) : (
                   <>
@@ -337,7 +393,51 @@ export default function ProfilePage() {
                           </p>
                         </div>
                       )}
+
+                      {profile?.college && (
+                        <div className="bg-background rounded-xl p-4">
+                          <p className="font-paragraph text-sm text-textprimary/60 mb-1">
+                            College
+                          </p>
+                          <p className="font-heading font-semibold text-base text-textprimary">
+                            {profile.college}
+                          </p>
+                        </div>
+                      )}
+
+                      {profile?.year && (
+                        <div className="bg-background rounded-xl p-4">
+                          <p className="font-paragraph text-sm text-textprimary/60 mb-1">
+                            Year of Study
+                          </p>
+                          <p className="font-heading font-semibold text-base text-textprimary">
+                            {profile.year}
+                          </p>
+                        </div>
+                      )}
                     </div>
+
+                    {profile?.hackathonParticipation && (
+                      <div className="bg-background rounded-xl p-4">
+                        <p className="font-paragraph text-sm text-textprimary/60 mb-2">
+                          Hackathon Participation
+                        </p>
+                        <p className="font-paragraph text-base text-textprimary">
+                          {profile.hackathonParticipation}
+                        </p>
+                      </div>
+                    )}
+
+                    {profile?.achievements && (
+                      <div className="bg-background rounded-xl p-4">
+                        <p className="font-paragraph text-sm text-textprimary/60 mb-2">
+                          Achievements & Awards
+                        </p>
+                        <p className="font-paragraph text-base text-textprimary">
+                          {profile.achievements}
+                        </p>
+                      </div>
+                    )}
 
                     {profile?.githubUrl && (
                       <div>

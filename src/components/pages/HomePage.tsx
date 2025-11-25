@@ -42,14 +42,14 @@ export default function HomePage() {
               using AI-powered recommendations based on skills, availability, and experience.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link to="/explore">
+              <Link to="/find-teammates">
                 <Button size="lg" className="bg-buttonbackground text-buttonforeground hover:bg-primary/90 h-14 px-8 rounded-full">
-                  Get Started
+                  Find Teammates
                 </Button>
               </Link>
-              <Link to="/teams">
+              <Link to="/explore">
                 <Button size="lg" variant="outline" className="h-14 px-8 rounded-full">
-                  Browse Teams
+                  Explore Projects
                 </Button>
               </Link>
             </div>
@@ -243,12 +243,12 @@ export default function HomePage() {
             <p className="font-paragraph text-lg text-white/90 mb-8 max-w-2xl mx-auto">
               Join SkillMate today and connect with talented individuals who share your passion for innovation.
             </p>
-            <Link to="/explore">
+            <Link to="/find-teammates">
               <Button 
                 size="lg" 
                 className="bg-white text-primary hover:bg-white/90 h-14 px-8 rounded-full gap-2"
               >
-                Start Exploring
+                Start Finding Teammates
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>

@@ -8,6 +8,7 @@ import ExplorePage from '@/components/pages/ExplorePage';
 import TeamsPage from '@/components/pages/TeamsPage';
 import ProfilePage from '@/components/pages/ProfilePage';
 import CreateProjectPage from '@/components/pages/CreateProjectPage';
+import FindTeammatesPage from '@/components/pages/FindTeammatesPage';
 
 // Layout component that includes ScrollToTop
 function Layout() {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: "find-teammates",
+        element: <FindTeammatesPage />,
       },
       {
         path: "explore",
