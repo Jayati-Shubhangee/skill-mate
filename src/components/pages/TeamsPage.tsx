@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Teams } from '@/entities';
 import { BaseCrudService } from '@/integrations';
 import NavBar from '@/components/layout/NavBar';
@@ -7,7 +8,7 @@ import TeamCard from '@/components/shared/TeamCard';
 import TeamDashboardModal from '@/components/shared/TeamDashboardModal';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, Rocket } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 
@@ -78,12 +79,22 @@ export default function TeamsPage() {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <h1 className="font-heading font-bold text-5xl text-textprimary mb-4">
-            Browse Teams
-          </h1>
-          <p className="font-paragraph text-lg text-textprimary/70 mb-8">
-            Find teams looking for talented members or create your own
-          </p>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+            <div>
+              <h1 className="font-heading font-bold text-5xl text-textprimary mb-4">
+                Browse Teams
+              </h1>
+              <p className="font-paragraph text-lg text-textprimary/70">
+                Find teams looking for talented members or create your own
+              </p>
+            </div>
+            <Link to="/create-project">
+              <Button className="bg-buttonbackground text-buttonforeground hover:bg-primary/90 h-12 gap-2 whitespace-nowrap">
+                <Rocket className="w-5 h-5" />
+                Create Project
+              </Button>
+            </Link>
+          </div>
 
           <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
             <div className="relative flex-1 max-w-2xl">

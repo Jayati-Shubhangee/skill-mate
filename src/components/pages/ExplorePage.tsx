@@ -8,7 +8,7 @@ import { Image } from '@/components/ui/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import SkillTag from '@/components/shared/SkillTag';
-import { Search, Calendar, Target } from 'lucide-react';
+import { Search, Calendar, Target, Rocket } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface ScoredProject {
@@ -95,12 +95,22 @@ export default function ExplorePage() {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <h1 className="font-heading font-bold text-5xl text-textprimary mb-4">
-            Explore Projects
-          </h1>
-          <p className="font-paragraph text-lg text-textprimary/70 mb-8">
-            Discover exciting hackathon projects and find opportunities that match your skills
-          </p>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+            <div>
+              <h1 className="font-heading font-bold text-5xl text-textprimary mb-4">
+                Explore Projects
+              </h1>
+              <p className="font-paragraph text-lg text-textprimary/70">
+                Discover exciting hackathon projects and find opportunities that match your skills
+              </p>
+            </div>
+            <Link to="/create-project">
+              <Button className="bg-buttonbackground text-buttonforeground hover:bg-primary/90 h-12 gap-2 whitespace-nowrap">
+                <Rocket className="w-5 h-5" />
+                Create Project
+              </Button>
+            </Link>
+          </div>
 
           <div className="relative max-w-2xl">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-textprimary/40" />
