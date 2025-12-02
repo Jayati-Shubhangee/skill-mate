@@ -6,6 +6,7 @@ import NavBar from '@/components/layout/NavBar';
 import Footer from '@/components/layout/Footer';
 import TeamCard from '@/components/shared/TeamCard';
 import TeamDashboardModal from '@/components/shared/TeamDashboardModal';
+import ProjectFormModal from '@/components/shared/ProjectFormModal';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, Filter, Rocket } from 'lucide-react';
@@ -20,6 +21,7 @@ export default function TeamsPage() {
   const [loading, setLoading] = useState(true);
   const [selectedTeam, setSelectedTeam] = useState<Teams | null>(null);
   const [showDashboard, setShowDashboard] = useState(false);
+  const [isProjectFormOpen, setIsProjectFormOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -88,12 +90,13 @@ export default function TeamsPage() {
                 Find teams looking for talented members or create your own
               </p>
             </div>
-            <Link to="/create-project">
-              <Button className="bg-buttonbackground text-buttonforeground hover:bg-primary/90 h-12 gap-2 whitespace-nowrap">
-                <Rocket className="w-5 h-5" />
-                Create Project
-              </Button>
-            </Link>
+            <Button 
+              onClick={() => setIsProjectFormOpen(true)}
+              className="bg-buttonbackground text-buttonforeground hover:bg-primary/90 h-12 gap-2 whitespace-nowrap"
+            >
+              <Rocket className="w-5 h-5" />
+              Create Project
+            </Button>
           </div>
 
           <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
@@ -164,6 +167,11 @@ export default function TeamsPage() {
       )}
 
       <Footer />
+
+      <ProjectFormModal 
+        isOpen={isProjectFormOpen}
+        onClose={() => setIsProjectFormOpen(false)}
+      />
     </div>
   );
 }

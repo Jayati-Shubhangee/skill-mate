@@ -5,12 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Image } from '@/components/ui/image';
 import NavBar from '@/components/layout/NavBar';
 import Footer from '@/components/layout/Footer';
+import ProjectFormModal from '@/components/shared/ProjectFormModal';
 import { Testimonials } from '@/entities';
 import { BaseCrudService } from '@/integrations';
 import { Users, Target, Sparkles, Star, ArrowRight } from 'lucide-react';
 
 export default function HomePage() {
   const [testimonials, setTestimonials] = useState<Testimonials[]>([]);
+  const [isProjectFormOpen, setIsProjectFormOpen] = useState(false);
 
   useEffect(() => {
     loadTestimonials();
@@ -42,14 +44,16 @@ export default function HomePage() {
               using AI-powered recommendations based on skills, availability, and experience.
             </p>
             <div className="flex flex-wrap gap-4">
+              <Button 
+                size="lg" 
+                onClick={() => setIsProjectFormOpen(true)}
+                className="bg-buttonbackground text-buttonforeground hover:bg-primary/90 h-14 px-8 rounded-full"
+              >
+                Create Project
+              </Button>
               <Link to="/find-teammates">
-                <Button size="lg" className="bg-buttonbackground text-buttonforeground hover:bg-primary/90 h-14 px-8 rounded-full">
-                  Find Teammates
-                </Button>
-              </Link>
-              <Link to="/explore">
                 <Button size="lg" variant="outline" className="h-14 px-8 rounded-full">
-                  Explore Projects
+                  Find Teammates
                 </Button>
               </Link>
             </div>
@@ -257,6 +261,11 @@ export default function HomePage() {
       </section>
 
       <Footer />
+
+      <ProjectFormModal 
+        isOpen={isProjectFormOpen}
+        onClose={() => setIsProjectFormOpen(false)}
+      />
     </div>
   );
 }
