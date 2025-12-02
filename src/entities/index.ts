@@ -89,7 +89,15 @@ export interface UserProfiles {
   _createdDate?: Date;
   _updatedDate?: Date;
   /** @wixFieldType text */
+  hackathonParticipation?: string;
+  /** @wixFieldType text */
+  achievements?: string;
+  /** @wixFieldType text */
   fullName?: string;
+  /** @wixFieldType text */
+  year?: string;
+  /** @wixFieldType text */
+  college?: string;
   /** @wixFieldType image */
   profilePicture?: string;
   /** @wixFieldType text */
@@ -104,12 +112,4 @@ export interface UserProfiles {
   experienceLevel?: string;
   /** @wixFieldType text */
   preferredRole?: string;
-  /** @wixFieldType text */
-  college?: string;
-  /** @wixFieldType text */
-  year?: string;
-  /** @wixFieldType text */
-  hackathonParticipation?: string;
-  /** @wixFieldType text */
-  achievements?: string;
 }
