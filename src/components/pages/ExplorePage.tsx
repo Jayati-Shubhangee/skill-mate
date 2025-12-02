@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Projects } from '@/entities';
+import { Projects, UserProfiles } from '@/entities';
 import { BaseCrudService } from '@/integrations';
 import NavBar from '@/components/layout/NavBar';
 import Footer from '@/components/layout/Footer';
@@ -11,11 +11,18 @@ import SkillTag from '@/components/shared/SkillTag';
 import { Search, Calendar, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+interface ScoredProject {
+  project: Projects;
+  matchScore: number;
+}
+
 export default function ExplorePage() {
   const [projects, setProjects] = useState<Projects[]>([]);
+  const [userProfiles, setUserProfiles] = useState<UserProfiles[]>([]);
   const [filteredProjects, setFilteredProjects] = useState<Projects[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState<'relevance' | 'recent'>('relevance');
 
   useEffect(() => {
     loadProjects();
@@ -23,7 +30,15 @@ export default function ExplorePage() {
 
   useEffect(() => {
     if (searchQuery.trim() === '') {
-      setFilteredProjects(projects);
+      let sorted = [...projects];
+      if (sortBy === 'recent') {
+        sorted.sort((a, b) => {
+          const dateA = new Date(a.submissionDate || 0).getTime();
+          const dateB = new Date(b.submissionDate || 0).getTime();
+          return dateB - dateA;
+        });
+      }
+      setFilteredProjects(sorted);
     } else {
       const query = searchQuery.toLowerCase();
       const filtered = projects.filter(project =>
@@ -32,15 +47,40 @@ export default function ExplorePage() {
         project.requiredSkills?.toLowerCase().includes(query) ||
         project.hackathonName?.toLowerCase().includes(query)
       );
-      setFilteredProjects(filtered);
+
+      // Score projects based on skill matches
+      const scored: ScoredProject[] = filtered.map(project => {
+        const projectSkills = project.requiredSkills?.toLowerCase().split(',').map(s => s.trim()) || [];
+        const querySkills = query.split(',').map(s => s.trim());
+        
+        let matchScore = 0;
+        querySkills.forEach(querySkill => {
+          if (projectSkills.some(pSkill => pSkill.includes(querySkill) || querySkill.includes(pSkill))) {
+            matchScore += 100;
+          }
+        });
+
+        return {
+          project,
+          matchScore: Math.min(matchScore, 100),
+        };
+      });
+
+      // Sort by match score (relevance)
+      scored.sort((a, b) => b.matchScore - a.matchScore);
+      setFilteredProjects(scored.map(s => s.project));
     }
-  }, [searchQuery, projects]);
+  }, [searchQuery, projects, sortBy]);
 
   const loadProjects = async () => {
     setLoading(true);
-    const { items } = await BaseCrudService.getAll<Projects>('projects');
-    setProjects(items);
-    setFilteredProjects(items);
+    const [projectsRes, profilesRes] = await Promise.all([
+      BaseCrudService.getAll<Projects>('projects'),
+      BaseCrudService.getAll<UserProfiles>('userprofiles'),
+    ]);
+    setProjects(projectsRes.items);
+    setUserProfiles(profilesRes.items);
+    setFilteredProjects(projectsRes.items);
     setLoading(false);
   };
 

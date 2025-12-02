@@ -10,6 +10,7 @@ interface EnhancedProfileCardProps {
   matchedSkills: string[];
   testimonial?: Testimonials;
   onInvite: () => void;
+  onViewFullProfile?: () => void;
 }
 
 export default function EnhancedProfileCard({
@@ -18,6 +19,7 @@ export default function EnhancedProfileCard({
   matchedSkills,
   testimonial,
   onInvite,
+  onViewFullProfile,
 }: EnhancedProfileCardProps) {
   const allSkills = profile.skills?.split(',').map(s => s.trim()).filter(Boolean) || [];
 
@@ -188,6 +190,15 @@ export default function EnhancedProfileCard({
         >
           Invite to Team
         </Button>
+        {onViewFullProfile && (
+          <Button
+            onClick={onViewFullProfile}
+            variant="outline"
+            className="flex-1 h-11"
+          >
+            View Full Profile
+          </Button>
+        )}
         {profile.githubUrl && (
           <Button
             variant="outline"

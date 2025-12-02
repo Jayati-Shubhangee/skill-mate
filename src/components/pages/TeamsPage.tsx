@@ -4,6 +4,7 @@ import { BaseCrudService } from '@/integrations';
 import NavBar from '@/components/layout/NavBar';
 import Footer from '@/components/layout/Footer';
 import TeamCard from '@/components/shared/TeamCard';
+import TeamDashboardModal from '@/components/shared/TeamDashboardModal';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, Filter } from 'lucide-react';
@@ -16,6 +17,8 @@ export default function TeamsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showOnlyRecruiting, setShowOnlyRecruiting] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [selectedTeam, setSelectedTeam] = useState<Teams | null>(null);
+  const [showDashboard, setShowDashboard] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -57,6 +60,11 @@ export default function TeamsPage() {
       title: 'Interest Expressed!',
       description: 'The team has been notified of your interest.',
     });
+  };
+
+  const handleViewTeam = (team: Teams) => {
+    setSelectedTeam(team);
+    setShowDashboard(true);
   };
 
   return (
@@ -125,12 +133,24 @@ export default function TeamsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
               >
-                <TeamCard team={team} onJoinTeam={handleJoinTeam} />
+                <TeamCard 
+                  team={team} 
+                  onJoinTeam={handleJoinTeam}
+                  onViewTeam={handleViewTeam}
+                />
               </motion.div>
             ))}
           </div>
         )}
       </div>
+
+      {selectedTeam && (
+        <TeamDashboardModal
+          team={selectedTeam}
+          isOpen={showDashboard}
+          onClose={() => setShowDashboard(false)}
+        />
+      )}
 
       <Footer />
     </div>

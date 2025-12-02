@@ -7,9 +7,10 @@ import { Link } from 'react-router-dom';
 interface TeamCardProps {
   team: Teams;
   onJoinTeam?: (teamId: string) => void;
+  onViewTeam?: (team: Teams) => void;
 }
 
-export default function TeamCard({ team, onJoinTeam }: TeamCardProps) {
+export default function TeamCard({ team, onJoinTeam, onViewTeam }: TeamCardProps) {
   const spotsLeft = (team.maximumTeamSize || 0) - (team.currentTeamSize || 0);
   const isLookingForMembers = team.lookingForMembers && spotsLeft > 0;
 
@@ -75,7 +76,18 @@ export default function TeamCard({ team, onJoinTeam }: TeamCardProps) {
           className="w-full bg-buttonbackground text-buttonforeground hover:bg-primary/90"
           size="sm"
         >
-          Express Interest
+          Send Request to Join
+        </Button>
+      )}
+
+      {onViewTeam && (
+        <Button
+          onClick={() => onViewTeam(team)}
+          variant="outline"
+          className="w-full mt-2"
+          size="sm"
+        >
+          View Team
         </Button>
       )}
     </div>

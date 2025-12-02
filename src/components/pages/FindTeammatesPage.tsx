@@ -9,6 +9,7 @@ import { Search, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import EnhancedProfileCard from '@/components/shared/EnhancedProfileCard';
+import FullProfileModal from '@/components/shared/FullProfileModal';
 
 interface ScoredProfile {
   profile: UserProfiles;
@@ -23,6 +24,8 @@ export default function FindTeammatesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState<UserProfiles | null>(null);
+  const [showFullProfile, setShowFullProfile] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -139,6 +142,11 @@ export default function FindTeammatesPage() {
     });
   };
 
+  const handleViewFullProfile = (profile: UserProfiles) => {
+    setSelectedProfile(profile);
+    setShowFullProfile(true);
+  };
+
   const getTestimonialForProfile = (profileId: string) => {
     return testimonials.find(t => t.authorName === allProfiles.find(p => p._id === profileId)?.fullName);
   };
@@ -229,6 +237,7 @@ export default function FindTeammatesPage() {
                     matchedSkills={item.matchedSkills}
                     testimonial={getTestimonialForProfile(item.profile._id)}
                     onInvite={() => handleInvite(item.profile._id, item.profile.fullName || 'User')}
+                    onViewFullProfile={() => handleViewFullProfile(item.profile)}
                   />
                 </motion.div>
               ))}
@@ -243,6 +252,19 @@ export default function FindTeammatesPage() {
           </div>
         )}
       </div>
+
+      {selectedProfile && (
+        <FullProfileModal
+          profile={selectedProfile}
+          testimonials={testimonials}
+          isOpen={showFullProfile}
+          onClose={() => setShowFullProfile(false)}
+          onInvite={() => {
+            handleInvite(selectedProfile._id, selectedProfile.fullName || 'User');
+            setShowFullProfile(false);
+          }}
+        />
+      )}
 
       <Footer />
     </div>

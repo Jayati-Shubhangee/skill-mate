@@ -60,6 +60,10 @@ export default function ProfilePage() {
         availability: userProfile.availability || '',
         experienceLevel: userProfile.experienceLevel || '',
         preferredRole: userProfile.preferredRole || '',
+        college: userProfile.college || '',
+        year: userProfile.year || '',
+        hackathonParticipation: userProfile.hackathonParticipation || '',
+        achievements: userProfile.achievements || '',
       });
     } else {
       // Create new profile
@@ -106,6 +110,10 @@ export default function ProfilePage() {
         availability: profile.availability || '',
         experienceLevel: profile.experienceLevel || '',
         preferredRole: profile.preferredRole || '',
+        college: profile.college || '',
+        year: profile.year || '',
+        hackathonParticipation: profile.hackathonParticipation || '',
+        achievements: profile.achievements || '',
       });
     }
     setIsEditing(false);
