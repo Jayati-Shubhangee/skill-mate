@@ -203,6 +203,30 @@ export default function ExplorePage() {
                     </div>
                   )}
 
+                  {project.roleNeeded && (
+                    <div className="mb-4 p-3 bg-background rounded-xl">
+                      <p className="font-paragraph text-sm text-textprimary/70">
+                        <span className="font-semibold">Role Needed:</span> {project.roleNeeded}
+                      </p>
+                    </div>
+                  )}
+
+                  {project.teamSize && (
+                    <div className="mb-4 p-3 bg-background rounded-xl">
+                      <p className="font-paragraph text-sm text-textprimary/70">
+                        <span className="font-semibold">Team Size:</span> {project.teamSize} members
+                      </p>
+                    </div>
+                  )}
+
+                  {project.timeCommitment && (
+                    <div className="mb-4 p-3 bg-background rounded-xl">
+                      <p className="font-paragraph text-sm text-textprimary/70">
+                        <span className="font-semibold">Time Commitment:</span> {project.timeCommitment}
+                      </p>
+                    </div>
+                  )}
+
                   {project.submissionDate && (
                     <div className="flex items-center gap-2 text-sm text-textprimary/60 mb-4">
                       <Calendar className="w-4 h-4" />

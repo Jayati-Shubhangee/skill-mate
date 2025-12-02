@@ -27,6 +27,12 @@ export interface Projects {
   hackathonName?: string;
   /** @wixFieldType text */
   projectStatus?: string;
+  /** @wixFieldType text */
+  roleNeeded?: string;
+  /** @wixFieldType number */
+  teamSize?: number;
+  /** @wixFieldType text */
+  timeCommitment?: string;
 }
 
 

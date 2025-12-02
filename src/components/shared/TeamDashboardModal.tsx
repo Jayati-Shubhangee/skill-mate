@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Teams, Projects } from '@/entities';
+import { Teams, Projects, UserProfiles } from '@/entities';
 import { BaseCrudService } from '@/integrations';
 import { Image } from '@/components/ui/image';
 import { Button } from '@/components/ui/button';
@@ -15,22 +15,31 @@ interface TeamDashboardModalProps {
 
 export default function TeamDashboardModal({ team, isOpen, onClose }: TeamDashboardModalProps) {
   const [projects, setProjects] = useState<Projects[]>([]);
+  const [teamMembers, setTeamMembers] = useState<UserProfiles[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
-      loadTeamProjects();
+      loadTeamData();
     }
   }, [isOpen, team._id]);
 
-  const loadTeamProjects = async () => {
+  const loadTeamData = async () => {
     setLoading(true);
-    const { items } = await BaseCrudService.getAll<Projects>('projects');
+    const [projectsRes, profilesRes] = await Promise.all([
+      BaseCrudService.getAll<Projects>('projects'),
+      BaseCrudService.getAll<UserProfiles>('userprofiles'),
+    ]);
+    
     // Filter projects created by this team (ongoing projects only)
-    const teamProjects = items.filter(
+    const teamProjects = projectsRes.items.filter(
       p => p.hackathonName === team.teamName && p.projectStatus?.toLowerCase() === 'active'
     );
     setProjects(teamProjects);
+    
+    // For demo purposes, show first few profiles as team members
+    // In a real app, you'd have a team members collection
+    setTeamMembers(profilesRes.items.slice(0, 3));
     setLoading(false);
   };
 
@@ -94,19 +103,68 @@ export default function TeamDashboardModal({ team, isOpen, onClose }: TeamDashbo
           </div>
 
           {/* Team Goal */}
-          {team.goal && (
-            <div>
-              <h3 className="font-heading font-semibold text-lg text-textprimary mb-2">
-                Team Goal
-              </h3>
-              <div className="flex items-start gap-3 p-4 bg-secondary rounded-xl">
-                <Target className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                <p className="font-paragraph text-base text-textprimary/80">
-                  {team.goal}
-                </p>
-              </div>
-            </div>
-          )}
+           {team.goal && (
+             <div>
+               <h3 className="font-heading font-semibold text-lg text-textprimary mb-2">
+                 Team Goal
+               </h3>
+               <div className="flex items-start gap-3 p-4 bg-secondary rounded-xl">
+                 <Target className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                 <p className="font-paragraph text-base text-textprimary/80">
+                   {team.goal}
+                 </p>
+               </div>
+             </div>
+           )}
+
+           {/* Team Members Section */}
+           {teamMembers.length > 0 && (
+             <div>
+               <h3 className="font-heading font-semibold text-lg text-textprimary mb-4">
+                 Team Members
+               </h3>
+               <div className="grid grid-cols-1 gap-4">
+                 {teamMembers.map(member => (
+                   <div key={member._id} className="flex items-start gap-4 p-4 bg-secondary rounded-xl">
+                     {member.profilePicture ? (
+                       <Image
+                         src={member.profilePicture}
+                         alt={member.fullName || 'Member'}
+                         className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                         width={64}
+                       />
+                     ) : (
+                       <div className="w-16 h-16 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+                         <Users className="w-8 h-8 text-white" />
+                       </div>
+                     )}
+                     <div className="flex-1">
+                       <h4 className="font-heading font-semibold text-base text-textprimary mb-1">
+                         {member.fullName || 'Team Member'}
+                       </h4>
+                       {member.preferredRole && (
+                         <p className="font-paragraph text-sm text-primary font-semibold mb-2">
+                           {member.preferredRole}
+                         </p>
+                       )}
+                       {member.skills && (
+                         <div className="flex flex-wrap gap-2">
+                           {member.skills.split(',').slice(0, 3).map((skill, idx) => (
+                             <SkillTag key={idx} skill={skill.trim()} size="sm" />
+                           ))}
+                           {member.skills.split(',').length > 3 && (
+                             <span className="font-paragraph text-xs text-textprimary/60">
+                               +{member.skills.split(',').length - 3} more
+                             </span>
+                           )}
+                         </div>
+                       )}
+                     </div>
+                   </div>
+                 ))}
+               </div>
+             </div>
+           )}
 
           {/* Skills Needed */}
           {team.skillsNeededDescription && team.lookingForMembers && (

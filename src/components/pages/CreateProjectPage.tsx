@@ -29,6 +29,9 @@ export default function CreateProjectPage() {
     requiredSkills: '',
     hackathonName: '',
     projectStatus: 'Active',
+    roleNeeded: '',
+    teamSize: '',
+    timeCommitment: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,6 +46,9 @@ export default function CreateProjectPage() {
       requiredSkills: formData.requiredSkills,
       hackathonName: formData.hackathonName,
       projectStatus: formData.projectStatus,
+      roleNeeded: formData.roleNeeded,
+      teamSize: formData.teamSize ? parseInt(formData.teamSize) : undefined,
+      timeCommitment: formData.timeCommitment,
       submissionDate: new Date().toISOString(),
     };
 
@@ -169,6 +175,52 @@ export default function CreateProjectPage() {
                   <p className="font-paragraph text-xs text-textprimary/60 mt-2">
                     Enter skills separated by commas. This will help us match you with the right teammates.
                   </p>
+                </div>
+
+                <div>
+                  <Label htmlFor="roleNeeded" className="font-paragraph text-sm font-semibold text-textprimary mb-2 block">
+                    Role Needed *
+                  </Label>
+                  <Input
+                    id="roleNeeded"
+                    value={formData.roleNeeded}
+                    onChange={(e) => setFormData({ ...formData, roleNeeded: e.target.value })}
+                    required
+                    placeholder="e.g., Frontend Developer, UI/UX Designer, Backend Engineer"
+                    className="bg-inputbackground border-inputborder"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="teamSize" className="font-paragraph text-sm font-semibold text-textprimary mb-2 block">
+                      Team Size Needed *
+                    </Label>
+                    <Input
+                      id="teamSize"
+                      type="number"
+                      value={formData.teamSize}
+                      onChange={(e) => setFormData({ ...formData, teamSize: e.target.value })}
+                      required
+                      placeholder="e.g., 3"
+                      min="1"
+                      className="bg-inputbackground border-inputborder"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="timeCommitment" className="font-paragraph text-sm font-semibold text-textprimary mb-2 block">
+                      Time Commitment *
+                    </Label>
+                    <Input
+                      id="timeCommitment"
+                      value={formData.timeCommitment}
+                      onChange={(e) => setFormData({ ...formData, timeCommitment: e.target.value })}
+                      required
+                      placeholder="e.g., 20 hours/week"
+                      className="bg-inputbackground border-inputborder"
+                    />
+                  </div>
                 </div>
 
                 <Button
